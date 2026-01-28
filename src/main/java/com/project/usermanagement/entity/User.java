@@ -28,4 +28,8 @@ public class User {
     private String password;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public enum Role {USER, ADMIN}
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

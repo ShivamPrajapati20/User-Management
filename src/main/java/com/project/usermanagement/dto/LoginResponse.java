@@ -3,10 +3,10 @@ package com.project.usermanagement.dto;
 public class LoginResponse {
 
     private String message;
-    private Long userId;
+    private String token;
 
-    public LoginResponse(String message, Long userId) {
+    public LoginResponse(String message, String token) {
         this.message = message;
-        this.userId = userId;
+        this.token = token;
     }
 }
