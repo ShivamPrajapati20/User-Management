@@ -1,21 +1,28 @@
 package com.project.usermanagement.service;
 
-
+import lombok.Data;
 import com.project.usermanagement.entity.User;
 import com.project.usermanagement.exception.UserNotFoundException;
 import com.project.usermanagement.repository.UserRepository;
-import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
-@Data
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -34,7 +41,7 @@ public class UserServiceImpl implements UserService {
         User existingUser = getUserById(id);
         existingUser.setName(user.getName());
         existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
+        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(existingUser);
     }
 
